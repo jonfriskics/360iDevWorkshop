@@ -136,10 +136,6 @@
                 self.snapBehavior = [[UISnapBehavior alloc] initWithItem:self.mailButton snapToPoint:CGPointMake(80,100)];
                 self.snapBehavior.damping = 1.8;
                 [self.animator addBehavior:self.snapBehavior];
-                
-                self.dynamicItemBehavior = [[UIDynamicItemBehavior alloc] initWithItems:@[self.mailButton]];
-                self.dynamicItemBehavior.allowsRotation = NO;
-                [self.animator addBehavior:self.dynamicItemBehavior];
             }];
         }
         UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(removeMenu:)];

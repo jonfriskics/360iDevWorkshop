@@ -77,7 +77,7 @@
     [self.view addSubview:self.authorView];
 
     self.snapBehavior = [[UISnapBehavior alloc] initWithItem:self.authorView snapToPoint:CGPointMake(CGRectGetMidX(self.view.frame), 200)];
-    self.snapBehavior.damping = 0.4;
+    self.snapBehavior.damping = 0.9;
     
     [self.animator addBehavior:self.snapBehavior];
 }

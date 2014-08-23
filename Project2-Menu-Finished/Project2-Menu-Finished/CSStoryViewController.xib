@@ -58,7 +58,7 @@
                             </connections>
                         </webView>
                     </subviews>
-                    <color key="backgroundColor" red="0.3932831554878049" green="0.35544104669982046" blue="0.35037693787613844" alpha="0.37" colorSpace="calibratedRGB"/>
+                    <color key="backgroundColor" red="0.56078433990478516" green="0.5372549295425415" blue="0.39215686917304993" alpha="0.37" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstItem="oSF-hy-eJl" firstAttribute="top" secondItem="YWE-aC-br7" secondAttribute="bottom" constant="8" id="4OD-an-cLn"/>
                         <constraint firstItem="YWE-aC-br7" firstAttribute="top" secondItem="M9x-CI-vcy" secondAttribute="top" constant="20" id="4UK-5D-MTe"/>
