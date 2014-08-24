@@ -1,6 +1,11 @@
 #import "CSStoryViewController.h"
 #import "CSAuthorView.h"
 
+#import "CSAuthorViewBehavior.h"
+#import "CSHideAuthorViewBehavior.h"
+#import "CSMenuItemBehavior.h"
+#import "CSRemoveMenuItemBehavior.h"
+
 @interface CSStoryViewController () <UIWebViewDelegate, UIDynamicAnimatorDelegate,MFMailComposeViewControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
@@ -13,14 +18,18 @@
 @property (strong, nonatomic) CSAuthorView *authorView;
 
 @property (strong, nonatomic) UIDynamicAnimator *animator;
-@property (strong, nonatomic) UISnapBehavior *snapBehavior;
-@property (strong, nonatomic) UIGravityBehavior *gravityBehavior;
 @property (strong, nonatomic) UIDynamicItemBehavior *dynamicItemBehavior;
 
 @property (strong, nonatomic) UIView *overlayView;
 @property (strong, nonatomic) UIButton *mailButton;
 
 @property (strong, nonatomic) UIAttachmentBehavior *attachmentBehavior;
+@property (strong, nonatomic) UIGravityBehavior *gravityBehaviorWhenPanned;
+
+@property (strong, nonatomic) CSAuthorViewBehavior *authorViewBehavior;
+@property (strong, nonatomic) CSAuthorViewBehavior *hideAuthorViewBehavior;
+@property (strong, nonatomic) CSMenuItemBehavior *menuItemBehavior;
+@property (strong, nonatomic) CSRemoveMenuItemBehavior *removeMenuItemBehavior;
 
 @end
 
@@ -84,33 +93,17 @@
     [self.authorView.dismissAuthorView addTarget:self action:@selector(hideAuthorView:) forControlEvents:UIControlEventTouchUpInside];
     
     [self.view addSubview:self.authorView];
-
-    self.snapBehavior = [[UISnapBehavior alloc] initWithItem:self.authorView snapToPoint:CGPointMake(CGRectGetMidX(self.view.frame), 200)];
-    self.snapBehavior.damping = 0.4;
     
-    [self.animator addBehavior:self.snapBehavior];
+    self.authorViewBehavior = [[CSAuthorViewBehavior alloc] initWithItem:self.authorView referenceView:self.view];
+    
+    [self.animator addBehavior:self.authorViewBehavior];
 }
 
 - (void)hideAuthorView:(id)sender
 {
-    self.gravityBehavior = [[UIGravityBehavior alloc] initWithItems:@[self.authorView]];
-    self.gravityBehavior.gravityDirection = CGVectorMake(0, 7);
-    [self.animator addBehavior:self.gravityBehavior];
+    CSHideAuthorViewBehavior *hideAuthorViewBehavior = [[CSHideAuthorViewBehavior alloc] initWithItem:self.authorView referenceView:self.view];
     
-    self.dynamicItemBehavior = [[UIDynamicItemBehavior alloc] initWithItems:@[self.authorView]];
-    self.dynamicItemBehavior.allowsRotation = YES;
-    [self.dynamicItemBehavior addAngularVelocity:(M_PI / 2)
-                                         forItem:self.authorView];
-    [self.animator addBehavior:self.dynamicItemBehavior];
-    
-    __weak CSStoryViewController *weakSelf = self;
-    self.gravityBehavior.action = ^{
-        if(!CGRectIntersectsRect(weakSelf.view.frame, weakSelf.authorView.frame)) {
-            [weakSelf.authorView removeFromSuperview];
-            [weakSelf.animator removeBehavior:weakSelf.gravityBehavior];
-            [weakSelf.animator removeBehavior:weakSelf.dynamicItemBehavior];
-        }
-    };
+    [self.animator addBehavior:hideAuthorViewBehavior];
 }
 
 - (void)showMenu:(id)sender
@@ -135,13 +128,8 @@
                 
                 self.mailButton.frame = CGRectMake(-100,80,40,40);
                 
-                self.snapBehavior = [[UISnapBehavior alloc] initWithItem:self.mailButton snapToPoint:CGPointMake(80,100)];
-                self.snapBehavior.damping = 1.8;
-                [self.animator addBehavior:self.snapBehavior];
-                
-                self.dynamicItemBehavior = [[UIDynamicItemBehavior alloc] initWithItems:@[self.mailButton]];
-                self.dynamicItemBehavior.allowsRotation = NO;
-                [self.animator addBehavior:self.dynamicItemBehavior];
+                CSMenuItemBehavior *menuItemBehavior = [[CSMenuItemBehavior alloc] initWithItem:self.mailButton referenceView:self.view toPoint:CGPointMake(80, 100)];
+                [self.animator addBehavior:menuItemBehavior];
             }];
         }
         UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(removeMenu:)];
@@ -153,23 +141,9 @@
 {
     [self.animator removeAllBehaviors];
     
-    UIPushBehavior *pushBehavior = [[UIPushBehavior alloc] initWithItems:@[self.mailButton] mode:UIPushBehaviorModeContinuous];
-    pushBehavior.pushDirection = CGVectorMake(-9,0);
+    CSRemoveMenuItemBehavior *removeMenuItemBehavior = [[CSRemoveMenuItemBehavior alloc] initWithItem:self.mailButton referenceView:self.view overlayView:self.overlayView];
     
-    [self.animator addBehavior:pushBehavior];
-    
-    __weak CSStoryViewController *weakSelf = self;
-    pushBehavior.action = ^{
-        if(!CGRectIntersectsRect(weakSelf.overlayView.frame, weakSelf.mailButton.frame)) {
-            [weakSelf.animator removeAllBehaviors];
-            [UIView animateWithDuration:0.3 animations:^{
-                weakSelf.overlayView.alpha = 0.0;
-            } completion:^(BOOL finished) {
-                [weakSelf.overlayView removeFromSuperview];
-                weakSelf.overlayView = nil;
-            }];
-        }
-    };
+    [self.animator addBehavior:removeMenuItemBehavior];
 }
 
 - (void)mailTapped:(id)sender
@@ -207,7 +181,8 @@
         UIOffset touchPointOffsetFromCenter = UIOffsetMake(authorViewTouchPoint.x - halfTheWidth, authorViewTouchPoint.y - halfTheHeight);
         
         CGPoint anchorInSuperview = [gesture locationInView:self.view];
-        
+
+        [self.animator removeAllBehaviors];
         self.attachmentBehavior = [[UIAttachmentBehavior alloc] initWithItem:self.authorView
                                                             offsetFromCenter:touchPointOffsetFromCenter
                                                             attachedToAnchor:anchorInSuperview];
@@ -218,9 +193,9 @@
         self.dynamicItemBehavior.angularResistance = 1.0f;
         [self.animator addBehavior:self.dynamicItemBehavior];
         
-        self.gravityBehavior = [[UIGravityBehavior alloc] initWithItems:@[self.authorView]];
-        self.gravityBehavior.magnitude = 0.7;
-        [self.animator addBehavior:self.gravityBehavior];
+        self.gravityBehaviorWhenPanned = [[UIGravityBehavior alloc] initWithItems:@[self.authorView]];
+        self.gravityBehaviorWhenPanned.magnitude = 0.7;
+        [self.animator addBehavior:self.gravityBehaviorWhenPanned];
 
     } else if (gesture.state == UIGestureRecognizerStateChanged) {
         CGPoint newAnchor = [gesture locationInView:self.view];
@@ -228,16 +203,16 @@
     } else if (gesture.state == UIGestureRecognizerStateEnded) {
         [self.animator removeBehavior:self.attachmentBehavior];
         [self.animator removeBehavior:self.dynamicItemBehavior];
-        [self.animator removeBehavior:self.gravityBehavior];
-        self.gravityBehavior = [[UIGravityBehavior alloc] initWithItems:@[self.authorView]];
-        self.gravityBehavior.gravityDirection = CGVectorMake(0, 7);
-        [self.animator addBehavior:self.gravityBehavior];
+        [self.animator removeBehavior:self.gravityBehaviorWhenPanned];
+        self.gravityBehaviorWhenPanned = [[UIGravityBehavior alloc] initWithItems:@[self.authorView]];
+        self.gravityBehaviorWhenPanned.gravityDirection = CGVectorMake(0, 7);
+        [self.animator addBehavior:self.gravityBehaviorWhenPanned];
         
         __weak CSStoryViewController *weakSelf = self;
-        self.gravityBehavior.action = ^{
+        self.gravityBehaviorWhenPanned.action = ^{
             if(!CGRectIntersectsRect(weakSelf.view.frame, weakSelf.authorView.frame)) {
                 [weakSelf.authorView removeFromSuperview];
-                [weakSelf.animator removeBehavior:weakSelf.gravityBehavior];
+                [weakSelf.animator removeBehavior:weakSelf.gravityBehaviorWhenPanned];
             }
         };
     }
@@ -251,7 +226,7 @@
 
 - (void)dynamicAnimatorDidPause:(UIDynamicAnimator *)animator
 {
-    [self.animator removeBehavior:self.snapBehavior];
+    [self.animator removeBehavior:self.authorViewBehavior];
 
     UIPanGestureRecognizer *gesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
     [self.authorView addGestureRecognizer:gesture];

@@ -37,6 +37,10 @@
 		AB51F97B19A94A1900DEDA9F /* OHHTTPStubsResponse+JSON.m in Sources */ = {isa = PBXBuildFile; fileRef = AB51F96819A94A1900DEDA9F /* OHHTTPStubsResponse+JSON.m */; };
 		AB51F97C19A94A1900DEDA9F /* OHHTTPStubsResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = AB51F96A19A94A1900DEDA9F /* OHHTTPStubsResponse.m */; };
 		AB51F97D19A94A1900DEDA9F /* stories.json in Resources */ = {isa = PBXBuildFile; fileRef = AB51F96B19A94A1900DEDA9F /* stories.json */; };
+		ABF5D2DF19A97AA300744B65 /* CSAuthorViewBehavior.m in Sources */ = {isa = PBXBuildFile; fileRef = ABF5D2DE19A97AA300744B65 /* CSAuthorViewBehavior.m */; };
+		ABF5D2E219A97CBB00744B65 /* CSHideAuthorViewBehavior.m in Sources */ = {isa = PBXBuildFile; fileRef = ABF5D2E119A97CBB00744B65 /* CSHideAuthorViewBehavior.m */; };
+		ABF5D2E519A99FC300744B65 /* CSMenuItemBehavior.m in Sources */ = {isa = PBXBuildFile; fileRef = ABF5D2E419A99FC300744B65 /* CSMenuItemBehavior.m */; };
+		ABF5D2E819A9A08700744B65 /* CSRemoveMenuItemBehavior.m in Sources */ = {isa = PBXBuildFile; fileRef = ABF5D2E719A9A08700744B65 /* CSRemoveMenuItemBehavior.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -96,6 +100,14 @@
 		AB51F96919A94A1900DEDA9F /* OHHTTPStubsResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OHHTTPStubsResponse.h; sourceTree = "<group>"; };
 		AB51F96A19A94A1900DEDA9F /* OHHTTPStubsResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OHHTTPStubsResponse.m; sourceTree = "<group>"; };
 		AB51F96B19A94A1900DEDA9F /* stories.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = stories.json; sourceTree = "<group>"; };
+		ABF5D2DD19A97AA300744B65 /* CSAuthorViewBehavior.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSAuthorViewBehavior.h; sourceTree = "<group>"; };
+		ABF5D2DE19A97AA300744B65 /* CSAuthorViewBehavior.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSAuthorViewBehavior.m; sourceTree = "<group>"; };
+		ABF5D2E019A97CBB00744B65 /* CSHideAuthorViewBehavior.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSHideAuthorViewBehavior.h; sourceTree = "<group>"; };
+		ABF5D2E119A97CBB00744B65 /* CSHideAuthorViewBehavior.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSHideAuthorViewBehavior.m; sourceTree = "<group>"; };
+		ABF5D2E319A99FC300744B65 /* CSMenuItemBehavior.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSMenuItemBehavior.h; sourceTree = "<group>"; };
+		ABF5D2E419A99FC300744B65 /* CSMenuItemBehavior.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSMenuItemBehavior.m; sourceTree = "<group>"; };
+		ABF5D2E619A9A08700744B65 /* CSRemoveMenuItemBehavior.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSRemoveMenuItemBehavior.h; sourceTree = "<group>"; };
+		ABF5D2E719A9A08700744B65 /* CSRemoveMenuItemBehavior.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSRemoveMenuItemBehavior.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -258,6 +270,14 @@
 		AB51F98119A94A3C00DEDA9F /* Behaviors */ = {
 			isa = PBXGroup;
 			children = (
+				ABF5D2DD19A97AA300744B65 /* CSAuthorViewBehavior.h */,
+				ABF5D2DE19A97AA300744B65 /* CSAuthorViewBehavior.m */,
+				ABF5D2E019A97CBB00744B65 /* CSHideAuthorViewBehavior.h */,
+				ABF5D2E119A97CBB00744B65 /* CSHideAuthorViewBehavior.m */,
+				ABF5D2E319A99FC300744B65 /* CSMenuItemBehavior.h */,
+				ABF5D2E419A99FC300744B65 /* CSMenuItemBehavior.m */,
+				ABF5D2E619A9A08700744B65 /* CSRemoveMenuItemBehavior.h */,
+				ABF5D2E719A9A08700744B65 /* CSRemoveMenuItemBehavior.m */,
 			);
 			name = Behaviors;
 			sourceTree = "<group>";
@@ -366,12 +386,16 @@
 				AB51F97C19A94A1900DEDA9F /* OHHTTPStubsResponse.m in Sources */,
 				AB51F97A19A94A1900DEDA9F /* OHHTTPStubsResponse+HTTPMessage.m in Sources */,
 				AB51F92F19A949E800DEDA9F /* CSAppDelegate.m in Sources */,
+				ABF5D2E219A97CBB00744B65 /* CSHideAuthorViewBehavior.m in Sources */,
 				AB51F96C19A94A1900DEDA9F /* CSAuthorView.m in Sources */,
 				AB51F97719A94A1900DEDA9F /* NetworkStubs.m in Sources */,
+				ABF5D2DF19A97AA300744B65 /* CSAuthorViewBehavior.m in Sources */,
 				AB51F97119A94A1900DEDA9F /* CSStoriesTableViewController.m in Sources */,
 				AB51F97919A94A1900DEDA9F /* OHHTTPStubs.m in Sources */,
 				AB51F97519A94A1900DEDA9F /* CSStoryViewController.m in Sources */,
+				ABF5D2E819A9A08700744B65 /* CSRemoveMenuItemBehavior.m in Sources */,
 				AB51F96D19A94A1900DEDA9F /* CSDismissSettingsAnimatorController.m in Sources */,
+				ABF5D2E519A99FC300744B65 /* CSMenuItemBehavior.m in Sources */,
 				AB51F96E19A94A1900DEDA9F /* CSPresentSettingsAnimationController.m in Sources */,
 				AB51F92B19A949E800DEDA9F /* main.m in Sources */,
 				AB51F96F19A94A1900DEDA9F /* CSSettingsViewController.m in Sources */,
@@ -574,6 +598,7 @@
 				AB51F94919A949E800DEDA9F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		AB51F94A19A949E800DEDA9F /* Build configuration list for PBXNativeTarget "Project5-Composed-FinishedTests" */ = {
 			isa = XCConfigurationList;
@@ -582,6 +607,7 @@
 				AB51F94C19A949E800DEDA9F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
