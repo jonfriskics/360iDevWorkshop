@@ -84,6 +84,7 @@
 
 - (void)hideAuthorView:(id)sender
 {
+    [self.animator removeBehavior:self.snapBehavior];
     self.gravityBehavior = [[UIGravityBehavior alloc] initWithItems:@[self.authorView]];
     self.gravityBehavior.gravityDirection = CGVectorMake(0, 7);
     [self.animator addBehavior:self.gravityBehavior];
